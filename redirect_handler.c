@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include "shell.h"
 
-int redirect_handler (char* arg)
+int read_fd = -1, write_fd = -1;
+
+char** redirect_handler (char* arg)
 {
 	int flag = 0, arg_len = strlen(arg);
 	for (int i=0; i<arg_len; ++i)
@@ -18,7 +20,9 @@ int redirect_handler (char* arg)
 			break;
 		}
 	if (!flag)
-		return 0;
+	{
+		return parseStr(arg, " &\n\t\v\f\r\a");
+	}
 	char* cmd = (char*)malloc(sizeof(char)*(arg_len+2));
 	cmd[0] = '\0';
 	int ind = 0, to_append = 0;
@@ -85,60 +89,46 @@ int redirect_handler (char* arg)
 	if (len_write_to == 0 && len_read_from == 0)
 	{
 		fprintf(stderr, "Error: invalid format\n");
-		return 1;
+		return NULL;
 	}
-	int pid = fork(), status;
-	if (pid == 0)
+	struct stat st;
+	read_fd = -1, write_fd = -1;
+	if (len_read_from > 0)
 	{
-		struct stat st;
-		int read_fd = -1, write_fd = -1;
-		if (len_read_from > 0)
+		if (stat(read_from, &st) == -1)
 		{
-			if (stat(read_from, &st) == -1)
-			{
-				fprintf(stderr, "Error: file \"%s\" does not exist\n", read_from);
-				return 1;	
-			}
-			if (!S_ISREG(st.st_mode))
-			{
-				fprintf(stderr, "Error: file to read from is not a regular file\n");
-				return 1;
-			}
-			read_fd = open(read_from, O_RDONLY);
-			if (read_fd == -1)
-			{
-				fprintf(stderr, "Error: failed to open file to read from\n");
-				return 1;
-			}
-			if (dup2(read_fd, 0) != 0)
-			{
-				fprintf(stderr, "Error: dup2 fail\n");
-				return 1;
-			}
+			fprintf(stderr, "Error: file \"%s\" does not exist\n", read_from);
+			return NULL;	
 		}
-		if (len_write_to > 0)
+		if (!S_ISREG(st.st_mode))
 		{
-			if (to_append)
-				write_fd = open(write_to, O_WRONLY|O_CREAT|O_APPEND, 0644);
-			else write_fd = open(write_to, O_WRONLY|O_CREAT|O_TRUNC, 0644);
-			if (dup2(write_fd, 1) != 1)
-			{
-				fprintf(stderr, "Error: dup2 fail\n");
-				return 1;
-			}
+			fprintf(stderr, "Error: file to read from is not a regular file\n");
+			return NULL;
 		}
-		char** args = parseStr(cmd, " &\n\t\v\f\r\a");
-		int x = isAllowed(args[0]);
-		if (x >= 0)
-			executeCmd(args, allowed_execs[x]);
-		else execvp(args[0], args);
-		exit(0);
+		read_fd = open(read_from, O_RDONLY);
+		if (read_fd == -1)
+		{
+			fprintf(stderr, "Error: failed to open file to read from\n");
+			return NULL;
+		}
+		if (dup2(read_fd, 0) != 0)
+		{
+			fprintf(stderr, "Error: dup2 fail\n");
+			return NULL;
+		}
 	}
-	else
+	if (len_write_to > 0)
 	{
-		waitpid(pid, &status, WUNTRACED);
-		free(cmd);
-		free(write_to);
-		free(read_from);
+		if (to_append)
+			write_fd = open(write_to, O_WRONLY|O_CREAT|O_APPEND, 0644);
+		else write_fd = open(write_to, O_WRONLY|O_CREAT|O_TRUNC, 0644);
+		if (dup2(write_fd, 1) != 1)
+		{
+			fprintf(stderr, "Error: dup2 fail\n");
+			return NULL;
+		}
 	}
+	free(write_to);
+	free(read_from);
+	return parseStr(cmd, " &\n\t\v\f\r\a");
 }

@@ -4,6 +4,8 @@
 
 	extern char home[1024];
 	extern char pwd[1024];
+	extern int write_fd;
+	extern int read_fd;
 	extern int is_bg;
 	extern int allwd_cmd_sz;
 	extern char* allowed_cmds[];
@@ -15,7 +17,8 @@
 	extern struct P running[1024];
 	extern int size_running_procs;
 
-	int redirect_handler (char* cmd);
+	int pipe_handler (char* cmd);
+	char** redirect_handler (char* cmd);
 	void execute_cd (char** args);
 	void execute_exit (char** args);
 	void execute_pwd (char** args);

@@ -14,6 +14,7 @@ shell: \
 			parseStr.o \
 			printCmdPrompt.o \
 			redirect_handler.o \
+			pipe_handler.o \
 			scanCmd.o \
 			setPwd.o \
 			trim.o
@@ -57,6 +58,9 @@ interpretCmd.o: shell.h interpretCmd.c
 
 redirect_handler.o: shell.h redirect_handler.c
 	$(CC) -g -c redirect_handler.c
+
+pipe_handler.o: shell.h pipe_handler.c
+	$(CC) -g -c pipe_handler.c
 
 isAllowed.o: shell.h isAllowed.c
 	$(CC) -g -c isAllowed.c
