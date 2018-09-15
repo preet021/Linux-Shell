@@ -16,7 +16,6 @@
 	}process;
 	extern struct P running[1024];
 	extern int size_running_procs;
-
 	int pipe_handler (char* cmd);
 	char** redirect_handler (char* cmd);
 	void execute_cd (char** args);
