@@ -10,7 +10,7 @@
 #include <pwd.h>
 #include <grp.h>
 
-void execute_ls (char** args)
+void execute_ls (char* str, char** args)
 {
 	const char *path;
 	char* tmp;

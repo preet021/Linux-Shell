@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void execute_remindme (char** args)
+void execute_remindme (char* str, char** args)
 {
 	if (!args[1] || !args[2])
 	{

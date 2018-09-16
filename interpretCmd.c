@@ -30,11 +30,21 @@ void interpretCmd (char* cmd)
 				break;
 			}
 		char** args;
-		if (strncmp(cmds[i], "exit", 4) == 0)
-			execute_exit(args);
-		if (strncmp(cmds[i], "cd", 2) == 0)
+		if (strncmp(cmds[i], "quit", 4) == 0)
+			execute_quit(cmds[i], args);
+		else if (strncmp(cmds[i], "cd", 2) == 0)
 		{
-			execute_cd(parseStr(cmds[i], cmd_delim));
+			execute_cd(cmds[i], parseStr(cmds[i], cmd_delim));
+			continue;
+		}
+		else if (strncmp(cmds[i], "setenv", 6) == 0)
+		{
+			execute_setenv(cmds[i], parseStr(cmds[i], cmd_delim));
+			continue;
+		}
+		else if (strncmp(cmds[i], "unsetenv", 8) == 0)
+		{
+			execute_unsetenv(cmds[i], parseStr(cmds[i], cmd_delim));
 			continue;
 		}
 		pid = fork();
@@ -57,7 +67,7 @@ void interpretCmd (char* cmd)
 				if (x >= 0)
 				{
 					is_bg = 0;
-					executeCmd(args, allowed_execs[x]);
+					executeCmd(cmds[i], args, allowed_execs[x]);
 				}
 				else
 				{

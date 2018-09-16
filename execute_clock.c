@@ -14,7 +14,7 @@ void intHandler (int dummy)
 	keepRunning = 0;
 }
 
-void execute_clock (char** args)
+void execute_clock (char* str, char** args)
 {
 	if (! args[1] || !args[2] || strcmp(args[1], "-t") != 0)
 	{

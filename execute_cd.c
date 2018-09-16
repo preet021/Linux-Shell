@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void execute_cd (char** args)
+void execute_cd (char* str, char** args)
 {
 	if ((args[1] && strcmp("&", args[1]) == 0)||(args[2] && strcmp("&", args[2]) == 0));
 	else if (!args[1] || (strcmp("~", args[1]) == 0)) chdir(home);

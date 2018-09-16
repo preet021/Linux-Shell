@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void executeCmd (char** args, void (*exec_fun)(char**))
+void executeCmd (char* str, char** args, void (*exec_fun)(char*, char**))
 {
-	(*exec_fun)(args);
+	(*exec_fun)(str, args);
 }

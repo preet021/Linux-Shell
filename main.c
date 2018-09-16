@@ -8,8 +8,8 @@
 
 char home[1024] = {'\0'};
 char pwd[1024] = {'\0'};
-char* allowed_cmds[] = {"cd", "exit", "pwd", "ls", "pinfo", "remindme", "clock"};
-void (*allowed_execs[])(char**) = {&execute_cd, &execute_exit, &execute_pwd, &execute_ls, &execute_pinfo, &execute_remindme, &execute_clock};
+char* allowed_cmds[] = {"cd", "quit", "pwd", "ls", "pinfo", "remindme", "clock", "setenv", "unsetenv", "jobs"};
+void (*allowed_execs[])(char*, char**) = {&execute_cd, &execute_quit, &execute_pwd, &execute_ls, &execute_pinfo, &execute_remindme, &execute_clock, &execute_setenv, &execute_unsetenv, &execute_jobs};
 int max_proc = 1024;
 int allwd_cmd_sz = sizeof(allowed_cmds)/sizeof(char*);
 struct P running[1024];

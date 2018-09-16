@@ -5,12 +5,13 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-void execute_pinfo (char** args)
+void execute_pinfo (char* str, char** args)
 {
 	char* path = (char*)malloc(sizeof(char)*64);
 	char* spid = (char*)malloc(sizeof(char)*32);
 	char ex_path[64];
 	char* buff = (char*)malloc(sizeof(char)*1024);
+	buff[0] = '\0';
 	if (!args[1] || strcmp(args[1], "&") == 0)
 	{
 		int pid;

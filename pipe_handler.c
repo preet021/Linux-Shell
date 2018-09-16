@@ -23,35 +23,42 @@ int pipe_handler(char* s)
 	if (no_of_pipes == 0) return -1;
 	int in_fd = dup(0);
 	int out_fd = dup(1);
-	pipe(fildes);
-	for (int i=0, pid, status; i<=no_of_pipes; ++i)
+	for (int i=0, pid, status, prev, nxt; i<=no_of_pipes; ++i)
 	{
-		char** args = parseStr(pipe_sep_cmds[i],  " \n\t\v\f\r\a");
+		char** args;
 		if (i == 0)
-			dup2(fildes[1], 1);
+		{
+			prev = 0;
+			nxt = 1;
+		}
 		else if (i == no_of_pipes)
 		{
+			prev = 1;
+			nxt = 0;
+		}
+		else nxt = prev = 1;
+		if (prev)
+		{
 			close(fildes[1]);
-			if(dup2(fildes[0], 0) == -1)
+			in_fd = dup(0);
+			if (dup2(fildes[0], 0) == -1)
 				fprintf(stderr, "Error: dup2 failed\n");
 			close(fildes[0]);
 		}
-		else
+		if (nxt)
 		{
-			// close(fildes[1]);
-			if (dup2(fildes[0], 0) == -1)
-				fprintf(stderr, "Error: dup2 failed\n");
+			pipe(fildes);
+			out_fd = dup(1);
 			if (dup2(fildes[1], 1) == -1)
-				fprintf(stderr, "
-					Error: dup2 failed\n");
+				fprintf(stderr, "Error: dup2 failed\n");
 		}
 		pid = fork();
 		if (pid == 0)
 		{
-			// args = redirect_handler(pipe_sep_cmds[i]);
-			// if (!args) exit(0);
+			args = redirect_handler(pipe_sep_cmds[i]);
+			if (!args) exit(0);
 			int x = isAllowed(pipe_sep_cmds[i]);
-			if (x >= 0) executeCmd(args, allowed_execs[x]);
+			if (x >= 0) executeCmd(pipe_sep_cmds[i], args, allowed_execs[x]);
 			else execvp(args[0], args);
 			fprintf(stderr,"baadme%d\n",fildes[0]);
 			exit(0);

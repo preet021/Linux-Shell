@@ -3,12 +3,15 @@ shell: \
 			execute_cd.o \
 			executeCmd.o \
 			execute_echo.o \
-			execute_exit.o \
+			execute_quit.o \
 			execute_ls.o \
 			execute_pinfo.o \
 			execute_pwd.o \
 			execute_remindme.o \
 			execute_clock.o \
+			execute_setenv.o \
+			execute_unsetenv.o \
+			execute_jobs.o \
 			interpretCmd.o \
 			isAllowed.o \
 			parseStr.o \
@@ -38,14 +41,23 @@ execute_remindme.o: shell.h execute_remindme.c
 executeCmd.o: shell.h executeCmd.c
 	$(CC) -g -c executeCmd.c
 
+execute_setenv.o: shell.h execute_setenv.c
+	$(CC) -g -c execute_setenv.c
+
+execute_unsetenv.o: shell.h execute_unsetenv.c
+	$(CC) -g -c execute_unsetenv.c
+
 execute_echo.o: shell.h execute_echo.c
 	$(CC) -g -c execute_echo.c
 
-execute_exit.o: shell.h execute_exit.c
-	$(CC) -g -c execute_exit.c
+execute_quit.o: shell.h execute_quit.c
+	$(CC) -g -c execute_quit.c
 
 execute_ls.o: shell.h execute_ls.c
 	$(CC) -g -c execute_ls.c
+
+execute_jobs.o: shell.h execute_jobs.c
+	$(CC) -g -c execute_jobs.c
 
 execute_pinfo.o: shell.h execute_pinfo.c
 	$(CC) -g -c execute_pinfo.c
