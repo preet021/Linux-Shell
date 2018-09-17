@@ -60,7 +60,6 @@ int pipe_handler(char* s)
 			int x = isAllowed(pipe_sep_cmds[i]);
 			if (x >= 0) executeCmd(pipe_sep_cmds[i], args, allowed_execs[x]);
 			else execvp(args[0], args);
-			fprintf(stderr,"baadme%d\n",fildes[0]);
 			exit(0);
 		}
 		else 

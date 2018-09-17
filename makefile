@@ -12,6 +12,7 @@ shell: \
 			execute_setenv.o \
 			execute_unsetenv.o \
 			execute_jobs.o \
+			execute_kjob.o \
 			interpretCmd.o \
 			isAllowed.o \
 			parseStr.o \
@@ -58,6 +59,9 @@ execute_ls.o: shell.h execute_ls.c
 
 execute_jobs.o: shell.h execute_jobs.c
 	$(CC) -g -c execute_jobs.c
+
+execute_kjob.o: shell.h execute_kjob.c
+	$(CC) -g -c execute_kjob.c
 
 execute_pinfo.o: shell.h execute_pinfo.c
 	$(CC) -g -c execute_pinfo.c

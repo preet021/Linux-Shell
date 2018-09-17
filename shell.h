@@ -16,7 +16,14 @@
 	}process;
 	extern struct P running[1024];
 	extern int size_running_procs;
-	
+	struct ongoing_processes {
+		char* p_pid;
+		char p_name[1024];
+		char p_stime[128];
+		char p_status[128];
+	}jobs;
+	extern struct ongoing_processes cur_jobs[1024];
+	extern int jobs_sz;
 	int pipe_handler (char* cmd);
 	char** redirect_handler (char* cmd);
 	void execute_cd (char* str, char** args);
@@ -29,7 +36,8 @@
 	void execute_clock (char* str, char** args);
 	void execute_setenv (char* str, char** args);
 	void execute_unsetenv (char* str, char** args);
-	void execute_jobs (char* str, char** args);
+	void execute_jobs (int flag);
+	void execute_kjob (char* str, char** args);
 	void executeCmd (char* str, char** args, void (*exec_fun)(char*, char**));
 	char** parseStr (char* cmd, char* delim);
 	int isAllowed (char* cmd);

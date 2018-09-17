@@ -26,6 +26,7 @@ void interpretCmd (char* cmd)
 		for (int j=0; cmds[i][j]; ++j)
 			if (cmds[i][j] == '&')
 			{
+				cmds[i][j] = '\0';
 				is_bg = 1;
 				break;
 			}
@@ -45,6 +46,17 @@ void interpretCmd (char* cmd)
 		else if (strncmp(cmds[i], "unsetenv", 8) == 0)
 		{
 			execute_unsetenv(cmds[i], parseStr(cmds[i], cmd_delim));
+			continue;
+		}
+		else if (strncmp(cmds[i], "jobs", 4) == 0)
+		{
+			execute_jobs(1);
+			continue;
+		}
+		else if (strncmp(cmds[i], "kjob", 4) == 0)
+		{
+			execute_jobs(0);
+			execute_kjob(cmds[i], parseStr(cmds[i], cmd_delim));
 			continue;
 		}
 		pid = fork();
@@ -82,6 +94,7 @@ void interpretCmd (char* cmd)
 			if (!is_bg) waitpid(pid, &status, WUNTRACED);
 			else 
 			{
+				args = parseStr(cmds[i], cmd_delim);
 				strcpy(running[size_running_procs].pname, args[0]);
 				running[size_running_procs++].pid = pid;
 			}
