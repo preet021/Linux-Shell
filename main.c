@@ -6,13 +6,13 @@
 #include <unistd.h>
 #include "shell.h"
 
-char home[1024] = {'\0'};
-char pwd[1024] = {'\0'};
+char home[1024];
+char pwd[1024];
 char* allowed_cmds[] = {"cd", "quit", "pwd", "ls", "pinfo", "remindme", "clock", "setenv", "unsetenv"};
 void (*allowed_execs[])(char*, char**) = {&execute_cd, &execute_quit, &execute_pwd, &execute_ls, &execute_pinfo, &execute_remindme, &execute_clock, &execute_setenv, &execute_unsetenv};
 int max_proc = 1024;
 int allwd_cmd_sz = sizeof(allowed_cmds)/sizeof(char*);
-struct P running[1024];
+struct P running[2048];
 
 int main ()
 {
@@ -42,7 +42,7 @@ int main ()
 						pname = running[i].pname;
 						running[i].pid = -1;
 						break;
-						fprintf(stderr, 	"%s with pid %d terminated by a signal.\n", pname, (int)pid);
+						fprintf(stderr, "%s with pid %d terminated by a signal.\n", pname, (int)pid);
 					}
 			}
 		}

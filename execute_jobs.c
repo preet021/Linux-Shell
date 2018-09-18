@@ -9,14 +9,14 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-struct ongoing_processes cur_jobs[1024];
+struct ongoing_processes cur_jobs[2048];
 int jobs_sz;
 
 int cmp (const void *a, const void *b)
 {
 	struct ongoing_processes *aa = (struct ongoing_processes*)a;
-	struct ongoing_processes *bb = (struct ongoing_processes*)b;	
-	return strcmp(aa->p_stime, bb->p_stime);
+	struct ongoing_processes *bb = (struct ongoing_processes*)b;
+	return atoi(aa->p_stime) - atoi(bb->p_stime);
 }
 
 void execute_jobs (int flag)
@@ -92,6 +92,6 @@ void execute_jobs (int flag)
 	qsort(cur_jobs, jobs_sz, sizeof(jobs), cmp);
 	if (flag)
 		for (int i=0; i<jobs_sz; ++i)
-			printf("[%d]\t%s\t%s\t%s\n", i+1, cur_jobs[i].p_status, cur_jobs[i].p_name, cur_jobs[i].p_pid);
+			printf("[%d]\t%s\t%s\t%s\t%s\n", i+1, cur_jobs[i].p_status, cur_jobs[i].p_name, cur_jobs[i].p_pid, cur_jobs[i].p_stime);
 	return;
 }

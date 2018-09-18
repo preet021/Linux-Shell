@@ -13,6 +13,8 @@ shell: \
 			execute_unsetenv.o \
 			execute_jobs.o \
 			execute_kjob.o \
+			execute_fg.o \
+			execute_bg.o \
 			interpretCmd.o \
 			isAllowed.o \
 			parseStr.o \
@@ -62,6 +64,12 @@ execute_jobs.o: shell.h execute_jobs.c
 
 execute_kjob.o: shell.h execute_kjob.c
 	$(CC) -g -c execute_kjob.c
+
+execute_fg.o: shell.h execute_fg.c
+	$(CC) -g -c execute_fg.c
+
+execute_bg.o: shell.h execute_bg.c
+	$(CC) -g -c execute_bg.c
 
 execute_pinfo.o: shell.h execute_pinfo.c
 	$(CC) -g -c execute_pinfo.c

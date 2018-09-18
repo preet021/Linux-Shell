@@ -59,6 +59,27 @@ void interpretCmd (char* cmd)
 			execute_kjob(cmds[i], parseStr(cmds[i], cmd_delim));
 			continue;
 		}
+		else if (strncmp(cmds[i], "fg", 2) == 0)
+		{
+			execute_jobs(0);
+			execute_fg(cmds[i], parseStr(cmds[i], cmd_delim));
+			continue;
+		}
+		else if (strncmp(cmds[i], "bg", 2) == 0)
+		{
+			execute_jobs(0);
+			execute_bg(cmds[i], parseStr(cmds[i], cmd_delim));
+			continue;
+		}
+		else if (strncmp(cmds[i], "overkill", 8) == 0)
+		{
+			for (int j=0; j<size_running_procs; ++j)
+			{
+				kill(running[j].pid, 9);
+				running[j].pid = -1;
+			}
+			continue;
+		}
 		pid = fork();
 		if (pid == 0)
 		{
