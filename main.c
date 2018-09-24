@@ -14,8 +14,21 @@ int max_proc = 1024;
 int allwd_cmd_sz = sizeof(allowed_cmds)/sizeof(char*);
 struct P running[2048];
 
+void sigintHandler (int sig_num)
+{
+	signal(SIGINT, sigintHandler);
+	fflush(stdout);
+}
+
+void sigtstpHandler(int sig_num) 
+{ 
+	signal(SIGTSTP, sigtstpHandler); 
+} 
+
 int main ()
 {
+	signal(SIGINT, sigintHandler);
+	signal(SIGTSTP, sigtstpHandler);
 	getcwd(home, 1023);
 	while (1)
 	{

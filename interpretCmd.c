@@ -83,6 +83,7 @@ void interpretCmd (char* cmd)
 		pid = fork();
 		if (pid == 0)
 		{
+			if (is_bg) setpgid(0, 0);
 			args = redirect_handler(cmds[i]);
 			if (!args) exit(0);
 			if (strncmp("echo", s, 4) == 0)

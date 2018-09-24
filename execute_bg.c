@@ -22,6 +22,6 @@ void execute_bg (char* str, char** args)
 	pid = atoi(cur_jobs[job_no-1].p_pid);
 	printf("name = %s\n", cur_jobs[job_no-1].p_name);
 	printf("pid = %d\n", pid);
-	kill(pid, SIGSTOP);
+	kill(pid, SIGCONT);
 	return;
 }

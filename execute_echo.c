@@ -5,6 +5,12 @@
 
 void execute_echo (char* args)
 {
+	for (int i=0; args[i]; ++i)
+		if (args[i] == '>')
+		{
+			args[i] = '\0';
+			break;
+		}
 	for (int i=0, j; args[i];)
 	{
 		if (isspace(args[i]))
