@@ -7,7 +7,6 @@ $ ./shell
 
 ### Features
 
-* All six specifications.
-* Bonus 1, 2 and manipulating echo commands with(out) quotes.
-* type "exit" command to exit from the shell.
-* cd, ls, pwd, echo, pinfo, remindme, clock are implemented manually; rest are executed using execvp sys-call.
+* All required specifications and bonus tasks.
+* Type "quit" command to exit from the shell.
+* cd, ls, pwd, echo, pinfo, remindme, clock, redirection, piping, setenv, unsetenv, jobs, kjob, fg, bg, overkill, quit, ctrl+C handler, ctrl+Z handler are implemented manually, rest are executed using execvp sys-call.

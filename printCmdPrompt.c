@@ -12,5 +12,5 @@ void printCmdPrompt ()
 	char commandPrompt[1024] = {'\0'};
 	getcwd(pwd, 1023);
 	char* cwd = setPwd(pwd);
-	printf("<%s@%s:%s> ", username, hostname, cwd);
+	printf("\033[0;32m<%s@%s:\033[0m\033[0;34m%s\033[0m> ", username, hostname, cwd);
 }
