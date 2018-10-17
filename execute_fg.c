@@ -13,7 +13,7 @@ void execute_fg (char* str, char** args)
 		return;
 	}
 	int pid, job_no = atoi(args[1]), status;
-	if (job_no >= jobs_sz)
+	if (job_no > jobs_sz)
 	{
 		fprintf(stderr, "Error: job number does not exist");
 		return;

@@ -22,8 +22,8 @@ void sigintHandler (int sig_num)
 
 void sigtstpHandler(int sig_num) 
 { 
-	signal(SIGTSTP, sigtstpHandler); 
-} 
+	signal(SIGTSTP, sigtstpHandler);
+}
 
 int main ()
 {
